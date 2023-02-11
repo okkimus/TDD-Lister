@@ -1,0 +1,43 @@
+{
+	"name": "TDD-Lister devcontainer",
+	"dockerComposeFile": "docker-compose.yml",
+	"service": "app",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/code/project,type=bind",
+	"workspaceFolder": "/home/code/project",
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			"settings": {},
+			"extensions": [
+				"streetsidesoftware.code-spell-checker",
+				"eamodio.gitlens",
+				"esbenp.prettier-vscode",
+				"bradlc.vscode-tailwindcss"
+			]
+		}
+	},
+	"features": {
+		"docker-in-docker": {
+			"version": "latest",
+			"moby": true,
+			"dockerDashComposeVersion": "v1"
+		}
+	},
+	"portsAttributes": {
+		"5010": {
+			"label": "API",
+			"onAutoForward": "notify"
+		},
+		"5011": {
+			"label": "Frontend"
+		},
+		"5432": {
+			"label": "Database"
+		}
+	},
+	"remoteUser": "code",
+	"mounts": [
+		"source=~/.ssh,target=/home/code/.ssh,type=bind,consistency=cached"
+	],
+	"postCreateCommand": "npm install -g yarn"
+}

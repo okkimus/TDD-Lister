@@ -1,0 +1,8 @@
+{
+    "editor.formatOnSave": true,
+    "editor.trimAutoWhitespace": true,
+    "editor.bracketPairColorization.enabled": true,
+    "editor.renderWhitespace": "all",
+    "editor.showUnused": true,
+    "cSpell.words": [],
+}
