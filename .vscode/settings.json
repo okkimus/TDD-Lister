@@ -4,5 +4,7 @@
     "editor.bracketPairColorization.enabled": true,
     "editor.renderWhitespace": "all",
     "editor.showUnused": true,
-    "cSpell.words": [],
+    "cSpell.words": [
+        "okkimus"
+    ],
 }
