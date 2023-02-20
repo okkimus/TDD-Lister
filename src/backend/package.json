@@ -12,7 +12,7 @@
     "test:coverage": "yarn test --coverage",
     "test:badges": "yarn test:coverage && jest-coverage-badges",
     "prepare": "cd ../.. && husky install",
-    "pre-push": "yarn test:badges && git add coverage && git commit --amend --no-edit"
+    "pre-push": "yarn test:badges && git add coverage && git commit --amend --no-edit --allow-empty"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",
