@@ -11,6 +11,7 @@
     "build": "tsc"
   },
   "devDependencies": {
+    "@jest/globals": "^29.4.3",
     "@tsconfig/recommended": "^1.0.2",
     "@types/jest": "^29.4.0",
     "jest": "^29.4.2",
