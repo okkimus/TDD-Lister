@@ -23,7 +23,7 @@ RUN sudo adduser --gecos '' --home /home/code code \
     && mkdir /home/code/project
 RUN usermod -aG sudo code
 
-RUN apt-get -y install postgresql-client
+RUN apt-get -y install postgresql-client openssh-client
 
 USER code
 WORKDIR /home/code/project
