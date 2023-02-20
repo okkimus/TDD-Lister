@@ -133,5 +133,13 @@ describe("shopping list dao", () => {
       expect(result1.id).toBe("1");
       expect(result2.id).toBe("2");
     });
+
+    test("delete() should delete correct list", async () => {
+      const result = await sut.delete("1");
+      const allLists = await sut.all();
+
+      expect(result.id).toBe("1");
+      expect(allLists).toHaveLength(1);
+    });
   });
 });
