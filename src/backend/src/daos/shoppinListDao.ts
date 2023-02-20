@@ -22,6 +22,8 @@ class ShoppingListDao {
   }
 
   insert(shoppingList: ShoppingList) {
+    const id = this.shoppingLists.length + 1;
+    shoppingList.id = id.toString();
     this.shoppingLists.push(shoppingList);
 
     return shoppingList;

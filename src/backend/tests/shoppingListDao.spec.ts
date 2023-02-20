@@ -25,7 +25,6 @@ describe("shopping list dao", () => {
 
     test("insert() should add one shopping list and return it", async () => {
       const shoppingList = {
-        id: "1",
         name: "Test list",
         items: [],
       } satisfies ShoppingList;
@@ -36,6 +35,15 @@ describe("shopping list dao", () => {
       expect(result.name).toBe("Test list");
       expect(result.items).toHaveLength(0);
     });
+
+    test("insert() should add id to the list", async () => {
+      const shoppingList = {
+        name: "Test list",
+        items: [],
+      } satisfies ShoppingList;
+      const result = await sut.insert(shoppingList);
+      expect(result.id).toBeDefined();
+    });
   });
 
   describe("when there's one list", () => {
@@ -43,7 +51,6 @@ describe("shopping list dao", () => {
     beforeAll(async () => {
       sut = new ShoppingListDao();
       const shoppingList = {
-        id: "1",
         name: "Test list",
         items: [],
       } satisfies ShoppingList;
@@ -54,7 +61,7 @@ describe("shopping list dao", () => {
       const result = await sut.all();
 
       expect(result).toHaveLength(1);
-      expect(result[0].id).toBe("1");
+      expect(result[0].id).toBeDefined();
       expect(result[0].name).toBe("Test list");
       expect(result[0].items).toHaveLength(0);
     });
@@ -82,12 +89,10 @@ describe("shopping list dao", () => {
     beforeAll(async () => {
       sut = new ShoppingListDao();
       const shoppingList1 = {
-        id: "1",
         name: "Test list",
         items: [],
       } satisfies ShoppingList;
       const shoppingList2 = {
-        id: "2",
         name: "Test list",
         items: [],
       } satisfies ShoppingList;

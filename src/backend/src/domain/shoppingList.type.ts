@@ -1,7 +1,7 @@
 import Item from "./item.type";
 
 interface ShoppingList {
-  id: string;
+  id?: string;
   name: string;
   items: Item[];
 }
