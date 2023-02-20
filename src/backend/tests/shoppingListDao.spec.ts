@@ -102,5 +102,13 @@ describe("shopping list dao", () => {
       expect(result[0].id).toBe("1");
       expect(result[1].id).toBe("2");
     });
+
+    test("getById() should return list with given id when there's many lists", async () => {
+      const result1 = await sut.getById("1");
+      const result2 = await sut.getById("2");
+
+      expect(result1.id).toBe("1");
+      expect(result2.id).toBe("2");
+    });
   });
 });
