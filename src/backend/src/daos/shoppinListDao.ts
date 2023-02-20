@@ -12,9 +12,13 @@ class ShoppingListDao {
   }
 
   getById(id: string) {
-    throw new Error("Not found");
+    const list = this.shoppingLists.find((sl) => sl.id === id);
 
-    return {};
+    if (!list) {
+      throw new Error("Not found");
+    }
+
+    return list;
   }
 
   insert(shoppingList: ShoppingList) {

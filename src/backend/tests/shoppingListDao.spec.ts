@@ -67,5 +67,13 @@ describe("shopping list dao", () => {
         expect(e.message).toBe("Not found");
       }
     });
+
+    test("getById() should return list with given id", async () => {
+      const result = await sut.getById("1");
+
+      expect(result.id).toBe("1");
+      expect(result.name).toBe("Test list");
+      expect(result.items).toHaveLength(0);
+    });
   });
 });
