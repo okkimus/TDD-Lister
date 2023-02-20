@@ -1,11 +1,11 @@
 import { ShoppingListDao } from "../src/daos/shoppinListDao";
-import { describe, test, expect, beforeAll } from "@jest/globals";
+import { describe, test, expect, beforeEach } from "@jest/globals";
 import ShoppingList from "../src/domain/shoppingList.type";
 
 describe("shopping list dao", () => {
   describe("when empty", () => {
     let sut: ShoppingListDao;
-    beforeAll(() => {
+    beforeEach(() => {
       sut = new ShoppingListDao();
     });
 
@@ -17,7 +17,7 @@ describe("shopping list dao", () => {
 
     test("getById() should throw not found error", async () => {
       try {
-        await sut.getById(1);
+        await sut.getById("1");
       } catch (e) {
         expect(e.message).toMatch("Not found");
       }
@@ -25,6 +25,7 @@ describe("shopping list dao", () => {
 
     test("insert() should add one shopping list and return it", async () => {
       const shoppingList = {
+        id: "1",
         name: "Test list",
         items: [],
       } satisfies ShoppingList;

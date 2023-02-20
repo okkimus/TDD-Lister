@@ -11,7 +11,7 @@ class ShoppingListDao {
     return this.shoppingLists;
   }
 
-  getById(id: number) {
+  getById(id: string) {
     throw new Error("Not found");
 
     return {};
