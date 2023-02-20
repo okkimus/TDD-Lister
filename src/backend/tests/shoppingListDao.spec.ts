@@ -47,7 +47,7 @@ describe("shopping list dao", () => {
         name: "Test list",
         items: [],
       } satisfies ShoppingList;
-      const result = await sut.insert(shoppingList);
+      await sut.insert(shoppingList);
     });
 
     test("all() should return array with one list", async () => {
@@ -74,6 +74,33 @@ describe("shopping list dao", () => {
       expect(result.id).toBe("1");
       expect(result.name).toBe("Test list");
       expect(result.items).toHaveLength(0);
+    });
+  });
+
+  describe("when there's many lists", () => {
+    let sut: ShoppingListDao;
+    beforeAll(async () => {
+      sut = new ShoppingListDao();
+      const shoppingList1 = {
+        id: "1",
+        name: "Test list",
+        items: [],
+      } satisfies ShoppingList;
+      const shoppingList2 = {
+        id: "2",
+        name: "Test list",
+        items: [],
+      } satisfies ShoppingList;
+      await sut.insert(shoppingList1);
+      await sut.insert(shoppingList2);
+    });
+
+    test("all() should return array with two lists", async () => {
+      const result = await sut.all();
+
+      expect(result).toHaveLength(2);
+      expect(result[0].id).toBe("1");
+      expect(result[1].id).toBe("2");
     });
   });
 });
