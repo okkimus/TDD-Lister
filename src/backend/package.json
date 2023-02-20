@@ -6,9 +6,11 @@
   "author": "okkimus",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "tsc"
+    "test:coverage": "yarn test --coverage",
+    "test:badges": "yarn test:coverage && jest-coverage-badges"
   },
   "devDependencies": {
     "@swc/cli": "^0.1.62",
@@ -17,6 +19,7 @@
     "@tsconfig/recommended": "^1.0.2",
     "@types/jest": "^29.4.0",
     "jest": "^29.4.3",
+    "jest-coverage-badges": "^1.1.2",
     "typescript": "^4.9.5"
   }
 }
