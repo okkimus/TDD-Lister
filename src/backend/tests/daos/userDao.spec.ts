@@ -146,6 +146,20 @@ describe("user dao", () => {
       expect(all[1].id).not.toBe("2");
     });
 
+    test("insert() throws if user exists with given email", async () => {
+      const userWithExistinEmail = {
+        username: "Tester",
+        email: "test@example.com",
+      } satisfies User;
+
+      try {
+        await sut.insert(userWithExistinEmail);
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e.message).toBe("User with given email already exists");
+      }
+    });
+
     test("delete() should delete correct user", async () => {
       const result = await sut.delete("1");
       const allLists = await sut.all();

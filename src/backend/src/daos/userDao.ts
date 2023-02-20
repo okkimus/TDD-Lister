@@ -24,6 +24,10 @@ class UserDao {
   insert(user: User) {
     let id: number;
 
+    if (this.users.find((u) => u.email === user.email)) {
+      throw new Error("User with given email already exists");
+    }
+
     if (this.users.length === 0) {
       id = 1;
     } else {
