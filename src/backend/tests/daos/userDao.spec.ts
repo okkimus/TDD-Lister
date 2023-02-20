@@ -134,6 +134,18 @@ describe("user dao", () => {
       expect(result2.id).toBe("2");
     });
 
+    test("insert() should not add duplicate ids", async () => {
+      await sut.delete("1");
+      await sut.insert({
+        username: "Tester",
+        email: "tester@example.com",
+      } satisfies User);
+      const all = await sut.all();
+
+      expect(all[0].id).toBe("2");
+      expect(all[1].id).not.toBe("2");
+    });
+
     test("delete() should delete correct user", async () => {
       const result = await sut.delete("1");
       const allLists = await sut.all();

@@ -22,7 +22,15 @@ class UserDao {
   }
 
   insert(user: User) {
-    const id = this.users.length + 1;
+    let id: number;
+
+    if (this.users.length === 0) {
+      id = 1;
+    } else {
+      const currentIds = this.users.map((u) => parseInt(u.id!));
+      id = Math.max(...currentIds) + 1;
+    }
+
     user.id = id.toString();
 
     this.users.push(user);

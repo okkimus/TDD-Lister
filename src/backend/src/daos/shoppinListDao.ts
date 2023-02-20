@@ -22,7 +22,15 @@ class ShoppingListDao {
   }
 
   insert(shoppingList: ShoppingList) {
-    const id = this.shoppingLists.length + 1;
+    let id: number;
+
+    if (this.shoppingLists.length === 0) {
+      id = 1;
+    } else {
+      const currentIds = this.shoppingLists.map((sl) => parseInt(sl.id!));
+      id = Math.max(...currentIds) + 1;
+    }
+
     shoppingList.id = id.toString();
     this.shoppingLists.push(shoppingList);
 

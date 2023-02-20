@@ -57,7 +57,7 @@ describe("shopping list dao", () => {
 
   describe("when there's one list", () => {
     let sut: ShoppingListDao;
-    beforeAll(async () => {
+    beforeEach(async () => {
       sut = new ShoppingListDao();
       const shoppingList = {
         name: "Test list",
@@ -104,7 +104,7 @@ describe("shopping list dao", () => {
 
   describe("when there's many lists", () => {
     let sut: ShoppingListDao;
-    beforeAll(async () => {
+    beforeEach(async () => {
       sut = new ShoppingListDao();
       const shoppingList1 = {
         name: "Test list",
@@ -132,6 +132,18 @@ describe("shopping list dao", () => {
 
       expect(result1.id).toBe("1");
       expect(result2.id).toBe("2");
+    });
+
+    test("insert() should not add duplicate ids", async () => {
+      await sut.delete("1");
+      await sut.insert({
+        name: "Test list",
+        items: [],
+      } satisfies ShoppingList);
+      const all = await sut.all();
+
+      expect(all[0].id).toBe("2");
+      expect(all[1].id).not.toBe("2");
     });
 
     test("delete() should delete correct list", async () => {
