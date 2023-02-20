@@ -1,6 +1,6 @@
-import { ShoppingListDao } from "../src/daos/shoppinListDao";
+import { ShoppingListDao } from "../../src/daos/shoppinListDao";
 import { describe, test, expect, beforeEach } from "@jest/globals";
-import ShoppingList from "../src/domain/shoppingList.type";
+import ShoppingList from "../../src/domain/shoppingList.type";
 
 describe("shopping list dao", () => {
   describe("when empty", () => {
