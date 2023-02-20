@@ -58,5 +58,14 @@ describe("shopping list dao", () => {
       expect(result[0].name).toBe("Test list");
       expect(result[0].items).toHaveLength(0);
     });
+
+    test("getById() should throw Not found error when id doesn't exist", async () => {
+      try {
+        const result = await sut.getById("2");
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e.message).toBe("Not found");
+      }
+    });
   });
 });
