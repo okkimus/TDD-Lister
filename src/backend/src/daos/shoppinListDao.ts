@@ -31,8 +31,9 @@ class ShoppingListDao {
 
   async delete(id: string) {
     const found = await this.getById(id);
+    this.shoppingLists = this.shoppingLists.filter((sl) => sl.id !== id);
 
-    return {};
+    return found;
   }
 }
 

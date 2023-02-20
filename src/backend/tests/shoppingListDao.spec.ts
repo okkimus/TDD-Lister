@@ -91,6 +91,15 @@ describe("shopping list dao", () => {
       expect(result.name).toBe("Test list");
       expect(result.items).toHaveLength(0);
     });
+
+    test("delete() should remove list and return it", async () => {
+      const result = await sut.delete("1");
+      const allLists = await sut.all();
+
+      expect(result.id).toBe("1");
+      expect(result.name).toBe("Test list");
+      expect(allLists).toHaveLength(0);
+    });
   });
 
   describe("when there's many lists", () => {
