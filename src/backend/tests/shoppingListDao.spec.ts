@@ -44,6 +44,15 @@ describe("shopping list dao", () => {
       const result = await sut.insert(shoppingList);
       expect(result.id).toBeDefined();
     });
+
+    test("delete() should throw Not found error", async () => {
+      try {
+        await sut.delete("1");
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e.message).toMatch("Not found");
+      }
+    });
   });
 
   describe("when there's one list", () => {

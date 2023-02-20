@@ -28,6 +28,12 @@ class ShoppingListDao {
 
     return shoppingList;
   }
+
+  async delete(id: string) {
+    const found = await this.getById(id);
+
+    return {};
+  }
 }
 
 export { ShoppingListDao };
