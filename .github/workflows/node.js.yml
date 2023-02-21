@@ -12,9 +12,6 @@ on:
 jobs:
   run_backend_tests:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./src/backend/
     strategy:
       matrix:
         node-version: [18.x]
@@ -33,6 +30,6 @@ jobs:
       - name: Generating coverage badges for backend
         uses: jpb06/jest-badges-action@latest
         with:
-          branches: main
-          coverage-summary-path: /home/runner/work/TDD-Lister/TDD-Lister/src/backend/coverage/coverage-summary.json
-          output-folder: /home/runner/work/TDD-Lister/TDD-Lister/src/backend/coverage/
+          branches: main,changing_dir_structure
+          coverage-summary-path: ./coverage/coverage-summary.json
+          output-folder: ./coverage/
