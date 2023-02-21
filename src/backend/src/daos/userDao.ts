@@ -28,6 +28,10 @@ class UserDao {
       throw new Error("Username cannot be empty");
     }
 
+    if (user.email === "") {
+      throw new Error("Email cannot be empty");
+    }
+
     if (this.users.find((u) => u.email === user.email)) {
       throw new Error("User with given email already exists");
     }
