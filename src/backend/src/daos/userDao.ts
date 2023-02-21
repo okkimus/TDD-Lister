@@ -1,4 +1,4 @@
-import User from "../domain/user.type";
+import User from "../domain/types/user.type";
 
 class UserDao {
   users: Array<User>;
