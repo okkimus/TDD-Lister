@@ -5,6 +5,7 @@ interface ListItem {
   name: string;
   amount?: Amount;
   found?: boolean;
+  shoppingListId: string;
 }
 
 export default ListItem;

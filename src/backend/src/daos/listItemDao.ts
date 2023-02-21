@@ -22,6 +22,10 @@ class ListItemDao {
   }
 
   insert(listItem: ListItem) {
+    if (listItem.shoppingListId === "") {
+      throw new Error("List item is missing shopping list id");
+    }
+
     const id =
       this.listItems.length > 0
         ? Math.max(...this.listItems.map((i) => i.id!)) + 1

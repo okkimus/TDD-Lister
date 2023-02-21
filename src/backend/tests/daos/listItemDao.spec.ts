@@ -26,6 +26,7 @@ describe("list item dao", () => {
     test("insert() should add one list item and return it", async () => {
       const listItem = {
         name: "Test item",
+        shoppingListId: "1",
       } satisfies ListItem;
       const result = await sut.insert(listItem);
       const allLists = await sut.all();
@@ -34,12 +35,26 @@ describe("list item dao", () => {
       expect(result.name).toBe("Test item");
     });
 
-    test("insert() should add id to the list", async () => {
+    test("insert() should add id to the list item", async () => {
       const listItem = {
         name: "Test item",
+        shoppingListId: "1",
       } satisfies ListItem;
       const result = await sut.insert(listItem);
       expect(result.id).toBeDefined();
+    });
+
+    test("insert() should throw if shopping list id is empty", async () => {
+      const listItem = {
+        name: "Test item",
+        shoppingListId: "",
+      } satisfies ListItem;
+      try {
+        await sut.insert(listItem);
+        expect(true).toBe(false);
+      } catch (e) {
+        expect(e.message).toBe("List item is missing shopping list id");
+      }
     });
 
     test("delete() should throw Not found error", async () => {
@@ -58,6 +73,7 @@ describe("list item dao", () => {
       sut = new ListItemDao();
       const listItem = {
         name: "Test item",
+        shoppingListId: "1",
       } satisfies ListItem;
       await sut.insert(listItem);
     });
@@ -102,9 +118,11 @@ describe("list item dao", () => {
       sut = new ListItemDao();
       const listItem1 = {
         name: "Test list",
+        shoppingListId: "1",
       } satisfies ListItem;
       const listItem2 = {
         name: "Test list",
+        shoppingListId: "1",
       } satisfies ListItem;
       await sut.insert(listItem1);
       await sut.insert(listItem2);
@@ -130,6 +148,7 @@ describe("list item dao", () => {
       await sut.delete(1);
       await sut.insert({
         name: "Test list",
+        shoppingListId: "1",
       } satisfies ListItem);
       const all = await sut.all();
 
