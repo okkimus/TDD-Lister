@@ -32,4 +32,4 @@ jobs:
       - name: Generating coverage badges for backend
         uses: jpb06/jest-badges-action@latest
         with:
-          branches: main,changing_dir_structure
+          branches: main,changing_dir_structure,some_other
