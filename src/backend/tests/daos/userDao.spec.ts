@@ -92,6 +92,18 @@ describe("user dao", () => {
       expect(result.email).toBe("test@example.com");
     });
 
+    test("insert() should throw if username is empty", async () => {
+      const userWithEmptyUsername = {
+        username: "",
+        email: "test@example.com",
+      } satisfies User;
+      try {
+        await sut.insert(userWithEmptyUsername);
+      } catch (e) {
+        expect(e.message).toBe("Username cannot be empty");
+      }
+    });
+
     test("delete() should remove list and return it", async () => {
       const result = await sut.delete("1");
       const allLists = await sut.all();
