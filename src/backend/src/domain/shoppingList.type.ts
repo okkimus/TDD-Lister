@@ -1,9 +1,9 @@
-import Item from "./item.type";
+import ListItem from "./listItem.type";
 
 interface ShoppingList {
   id?: string;
   name: string;
-  items: Item[];
+  items: ListItem[];
 }
 
 export default ShoppingList;
