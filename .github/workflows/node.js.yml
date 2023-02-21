@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
-      - run: yarn test:coverage
+      - run: yarn ci:tests
 
       - name: Generating coverage badges for backend
         uses: jpb06/jest-badges-action@latest
