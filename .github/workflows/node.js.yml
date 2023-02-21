@@ -33,5 +33,3 @@ jobs:
         uses: jpb06/jest-badges-action@latest
         with:
           branches: main,changing_dir_structure
-          coverage-summary-path: ./coverage/coverage-summary.json
-          output-folder: ./coverage/
