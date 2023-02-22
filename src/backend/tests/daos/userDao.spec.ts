@@ -185,5 +185,18 @@ describe("user dao", () => {
       expect(result.id).toBe("1");
       expect(allLists).toHaveLength(1);
     });
+
+    test("update() should update properties", async () => {
+      const user = {
+        id: "1",
+        username: "Updated",
+        email: "updated@example.com",
+      } satisfies User;
+      const updated = await sut.update(user);
+
+      expect(user.id).toBe("1");
+      expect(user.username).toBe("Updated");
+      expect(user.email).toBe("updated@example.com");
+    });
   });
 });
