@@ -1,5 +1,5 @@
 import { UserDao } from "../../src/daos/userDao";
-import User from "../../src/domain/user.type";
+import User from "../../src/domain/types/user.type";
 import { describe, test, expect, beforeEach } from "@jest/globals";
 
 describe("user dao", () => {
@@ -9,39 +9,39 @@ describe("user dao", () => {
       sut = new UserDao();
     });
 
-    test("all() should return empty array", async () => {
-      const result = await sut.all();
+    test("loadAll() should return empty array", async () => {
+      const result = await sut.loadAll();
 
       expect(result).toStrictEqual([]);
     });
 
-    test("getById() should throw not found error", async () => {
+    test("get() should throw not found error", async () => {
       try {
-        await sut.getById("1");
+        await sut.get("1");
       } catch (e) {
         expect(e.message).toMatch("Not found");
       }
     });
 
-    test("insert() should add one user and return it", async () => {
+    test("save() should add one user and return it", async () => {
       const user = {
         username: "Test",
         email: "test@example.com",
       } satisfies User;
-      const result = await sut.insert(user);
-      const allLists = await sut.all();
+      const result = await sut.save(user);
+      const allLists = await sut.loadAll();
 
       expect(allLists).toHaveLength(1);
       expect(result.username).toBe("Test");
       expect(result.email).toBe("test@example.com");
     });
 
-    test("insert() should add id to the user", async () => {
+    test("save() should add id to the user", async () => {
       const user = {
         username: "Test",
         email: "test@example.com",
       } satisfies User;
-      const result = await sut.insert(user);
+      const result = await sut.save(user);
       expect(result.id).toBeDefined();
     });
 
@@ -63,11 +63,11 @@ describe("user dao", () => {
         username: "Test",
         email: "test@example.com",
       } satisfies User;
-      await sut.insert(user);
+      await sut.save(user);
     });
 
-    test("all() should return array with one user", async () => {
-      const result = await sut.all();
+    test("loadAll() should return array with one user", async () => {
+      const result = await sut.loadAll();
 
       expect(result).toHaveLength(1);
       expect(result[0].id).toBeDefined();
@@ -75,50 +75,27 @@ describe("user dao", () => {
       expect(result[0].email).toBe("test@example.com");
     });
 
-    test("getById() should throw Not found error when id doesn't exist", async () => {
+    test("get() should throw Not found error when id doesn't exist", async () => {
       try {
-        await sut.getById("2");
+        await sut.get("2");
         expect(true).toBe(false);
       } catch (e) {
         expect(e.message).toBe("Not found");
       }
     });
 
-    test("getById() should return user with given id", async () => {
-      const result = await sut.getById("1");
+    test("get() should return user with given id", async () => {
+      const result = await sut.get("1");
 
       expect(result.id).toBe("1");
       expect(result.username).toBe("Test");
       expect(result.email).toBe("test@example.com");
     });
 
-    test("insert() should throw if username is empty", async () => {
-      const userWithEmptyUsername = {
-        username: "",
-        email: "test@example.com",
-      } satisfies User;
-      try {
-        await sut.insert(userWithEmptyUsername);
-      } catch (e) {
-        expect(e.message).toBe("Username cannot be empty");
-      }
-    });
-
-    test("insert() should throw if email is empty", async () => {
-      const userWithEmptyUsername = {
-        username: "Test",
-        email: "",
-      } satisfies User;
-      try {
-        await sut.insert(userWithEmptyUsername);
-      } catch (e) {
-        expect(e.message).toBe("Email cannot be empty");
-      }
-    });
-
-    test("delete() should remove list and return it", async () => {
-      const result = await sut.delete("1");
-      const allLists = await sut.all();
+    test("delete() should remove user and return it", async () => {
+      const user = await sut.get("1");
+      const result = await sut.delete(user);
+      const allLists = await sut.loadAll();
 
       expect(result.id).toBe("1");
       expect(result.username).toBe("Test");
@@ -138,60 +115,62 @@ describe("user dao", () => {
         username: "Tset",
         email: "tset@example.com",
       } satisfies User;
-      await sut.insert(user1);
-      await sut.insert(user2);
+      await sut.save(user1);
+      await sut.save(user2);
     });
 
-    test("all() should return array with two users", async () => {
-      const result = await sut.all();
+    test("loadAll() should return array with two users", async () => {
+      const result = await sut.loadAll();
 
       expect(result).toHaveLength(2);
       expect(result[0].id).toBe("1");
       expect(result[1].id).toBe("2");
     });
 
-    test("getById() should return user with given id when there's many users", async () => {
-      const result1 = await sut.getById("1");
-      const result2 = await sut.getById("2");
+    test("get() should return user with given id when there's many users", async () => {
+      const result1 = await sut.get("1");
+      const result2 = await sut.get("2");
 
       expect(result1.id).toBe("1");
       expect(result2.id).toBe("2");
     });
 
-    test("insert() should not add duplicate ids", async () => {
-      await sut.delete("1");
-      await sut.insert({
+    test("save() should not add duplicate ids", async () => {
+      const user = await sut.get("1");
+      await sut.delete(user);
+      await sut.save({
         username: "Tester",
         email: "tester@example.com",
       } satisfies User);
-      const all = await sut.all();
+      const all = await sut.loadAll();
+      console.log(all);
 
       expect(all[0].id).toBe("2");
       expect(all[1].id).not.toBe("2");
     });
 
-    test("insert() throws if user exists with given email", async () => {
-      const userWithExistinEmail = {
+    test("save() throws if user exists with given email", async () => {
+      const userWithExistingEmail = {
         username: "Tester",
         email: "test@example.com",
       } satisfies User;
 
       try {
-        await sut.insert(userWithExistinEmail);
+        await sut.save(userWithExistingEmail);
         expect(true).toBe(false);
       } catch (e) {
         expect(e.message).toBe("User with given email already exists");
       }
     });
 
-    test("insert() throws if user exists with given username", async () => {
+    test("save() throws if user exists with given username", async () => {
       const userWithExistingUsername = {
         username: "Test",
         email: "tester@example.com",
       } satisfies User;
 
       try {
-        await sut.insert(userWithExistingUsername);
+        await sut.save(userWithExistingUsername);
         expect(true).toBe(false);
       } catch (e) {
         expect(e.message).toBe("User with given username already exists");
@@ -199,8 +178,9 @@ describe("user dao", () => {
     });
 
     test("delete() should delete correct user", async () => {
-      const result = await sut.delete("1");
-      const allLists = await sut.all();
+      const user = await sut.get("1");
+      const result = await sut.delete(user);
+      const allLists = await sut.loadAll();
 
       expect(result.id).toBe("1");
       expect(allLists).toHaveLength(1);

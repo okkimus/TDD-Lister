@@ -16,7 +16,21 @@ class UserService {
       throw new Error("User is missing email address.");
     }
 
-    return user;
+    try {
+      const insertedUser = await this.userDao.save(user);
+      return this.mapUserToUserDto(insertedUser);
+    } catch (e) {
+      console.error("Failed inserting user into db.", e);
+      throw e;
+    }
+  }
+
+  mapUserToUserDto(user: UserDto) {
+    return {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+    } satisfies UserDto;
   }
 }
 

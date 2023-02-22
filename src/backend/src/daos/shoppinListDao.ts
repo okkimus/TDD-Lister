@@ -1,4 +1,4 @@
-import ShoppingList from "../domain/shoppingList.type";
+import ShoppingList from "../domain/types/shoppingList.type";
 
 class ShoppingListDao {
   shoppingLists: Array<ShoppingList>;
