@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
+      - name: Type checking
+        run: yarn build
       - run: yarn ci:tests
       - run: pwd
       - run: cat coverage/coverage-summary.json
