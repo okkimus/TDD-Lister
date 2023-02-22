@@ -143,7 +143,6 @@ describe("user dao", () => {
         email: "tester@example.com",
       } satisfies User);
       const all = await sut.loadAll();
-      console.log(all);
 
       expect(all[0].id).toBe("2");
       expect(all[1].id).not.toBe("2");
