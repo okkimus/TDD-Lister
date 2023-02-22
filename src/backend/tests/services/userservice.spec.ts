@@ -60,5 +60,20 @@ describe("user service", () => {
       const result = await sut.create(testUser);
       expect(userDaoMock.save).toBeCalled();
     });
+
+    test("should throw if dao fails to save", async () => {
+      userDaoMock.save = jest.fn(
+        (user: UserDto) =>
+          new Promise<UserDto>((resolve) => {
+            throw new Error("Failed inserting user into db.");
+          })
+      );
+      try {
+        await sut.create(testUser);
+        expect(true).toBeFalsy();
+      } catch (e) {
+        expect(e.message).toBe("Failed inserting user into db.");
+      }
+    });
   });
 });
