@@ -48,8 +48,9 @@ class ShoppingListDao implements BaseDao<ShoppingList, string> {
   }
 
   async update(shoppingList: ShoppingList) {
-    throw new Error("Not implemented");
-    return shoppingList;
+    const listToBeUpdated = await this.get(shoppingList.id!);
+    listToBeUpdated.name = shoppingList.name;
+    return listToBeUpdated;
   }
 }
 

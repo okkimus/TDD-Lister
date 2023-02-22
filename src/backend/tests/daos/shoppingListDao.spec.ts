@@ -153,5 +153,17 @@ describe("shopping list dao", () => {
       expect(result.id).toBe("1");
       expect(allLists).toHaveLength(1);
     });
+
+    test("update() should change the properties", async () => {
+      const list = {
+        id: "1",
+        name: "Updated name",
+        items: [],
+      } satisfies ShoppingList;
+      const updated = await sut.update(list);
+
+      expect(updated.id).toBe("1");
+      expect(updated.name).toBe("Updated name");
+    });
   });
 });
