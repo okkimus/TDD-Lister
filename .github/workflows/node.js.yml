@@ -30,11 +30,9 @@ jobs:
       - name: Type checking
         run: yarn build
       - run: yarn ci:tests
-      - run: pwd
-      - run: cat coverage/coverage-summary.json
       - name: Generating coverage badges for backend
         uses: jpb06/jest-badges-action@latest
         with:
           branches: main
-          coverage-summary-path: ./coverage/coverage-summary.json
-          output-folder: ./coverage/
+          coverage-summary-path: ./src/backend/coverage/coverage-summary.json
+          output-folder: ./src/backend/coverage/badges
