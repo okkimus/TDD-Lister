@@ -1,17 +1,18 @@
-import ShoppingList from "../domain/shoppingList.type";
+import ShoppingList from "../domain/types/shoppingList.type";
+import BaseDao from "./base.dao";
 
-class ShoppingListDao {
+class ShoppingListDao implements BaseDao<ShoppingList, string> {
   shoppingLists: Array<ShoppingList>;
 
   constructor() {
     this.shoppingLists = [];
   }
 
-  all() {
-    return this.shoppingLists;
+  async loadAll() {
+    return await this.shoppingLists;
   }
 
-  getById(id: string) {
+  async get(id: string) {
     const list = this.shoppingLists.find((sl) => sl.id === id);
 
     if (!list) {
@@ -21,7 +22,7 @@ class ShoppingListDao {
     return list;
   }
 
-  insert(shoppingList: ShoppingList) {
+  async save(shoppingList: ShoppingList) {
     let id: number;
 
     if (this.shoppingLists.length === 0) {
@@ -37,11 +38,18 @@ class ShoppingListDao {
     return shoppingList;
   }
 
-  async delete(id: string) {
-    const found = await this.getById(id);
-    this.shoppingLists = this.shoppingLists.filter((sl) => sl.id !== id);
+  async delete(shoppingList: ShoppingList) {
+    const found = await this.get(shoppingList.id!);
+    this.shoppingLists = this.shoppingLists.filter(
+      (sl) => sl.id !== shoppingList.id
+    );
 
     return found;
+  }
+
+  async update(shoppingList: ShoppingList) {
+    throw new Error("Not implemented");
+    return shoppingList;
   }
 }
 

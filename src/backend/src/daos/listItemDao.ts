@@ -1,4 +1,4 @@
-import ListItem from "../domain/listItem.type";
+import ListItem from "../domain/types/listItem.type";
 
 class ListItemDao {
   listItems: Array<ListItem>;

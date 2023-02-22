@@ -1,37 +1,30 @@
-import User from "../domain/user.type";
+import User from "../domain/types/user.type";
+import BaseDao from "./base.dao";
 
-class UserDao {
+class UserDao implements BaseDao<User, string> {
   users: Array<User>;
+  counter: number;
 
   constructor() {
     this.users = [];
+    this.counter = 0;
   }
 
-  all() {
-    return this.users;
+  async loadAll() {
+    return await this.users;
   }
 
-  getById(id: string) {
+  async get(id: string) {
     const user = this.users.find((u) => u.id === id);
 
     if (!user) {
       throw new Error("Not found");
     }
 
-    return user;
+    return await user;
   }
 
-  insert(user: User) {
-    let id: number;
-
-    if (user.username === "") {
-      throw new Error("Username cannot be empty");
-    }
-
-    if (user.email === "") {
-      throw new Error("Email cannot be empty");
-    }
-
+  async save(user: User) {
     if (this.users.find((u) => u.email === user.email)) {
       throw new Error("User with given email already exists");
     }
@@ -40,13 +33,7 @@ class UserDao {
       throw new Error("User with given username already exists");
     }
 
-    if (this.users.length === 0) {
-      id = 1;
-    } else {
-      const currentIds = this.users.map((u) => parseInt(u.id!));
-      id = Math.max(...currentIds) + 1;
-    }
-
+    const id = ++this.counter; // This will later be done by autoincrement in db
     user.id = id.toString();
 
     this.users.push(user);
@@ -54,12 +41,21 @@ class UserDao {
     return user;
   }
 
-  async delete(id: string) {
-    const found = await this.getById(id);
+  async delete(user: User) {
+    const userExists = !!this.users.find((u) => u.id === user.id);
+    if (!userExists) {
+      throw new Error("Not found");
+    }
 
-    this.users = this.users.filter((u) => u.id !== id);
+    this.users = this.users.filter((u) => u.id !== user.id);
+    return user;
+  }
 
-    return found;
+  async update(user: User) {
+    const targetUser = await this.get(user.id!);
+    targetUser.username = user.username;
+    targetUser.email = user.email;
+    return targetUser;
   }
 }
 

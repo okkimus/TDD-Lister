@@ -27,6 +27,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
+      - name: Type checking
+        run: yarn build
       - run: yarn ci:tests
       - run: pwd
       - run: cat coverage/coverage-summary.json
@@ -34,5 +36,5 @@ jobs:
         uses: jpb06/jest-badges-action@latest
         with:
           branches: main
-          coverage-summary-path: /home/runner/work/TDD-Lister/TDD-Lister/src/backend/coverage/coverage-summary.json
-          output-folder: /home/runner/work/TDD-Lister/TDD-Lister/src/backend/coverage/
+          coverage-summary-path: ./coverage/coverage-summary.json
+          output-folder: ./coverage/
