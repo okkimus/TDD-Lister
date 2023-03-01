@@ -26,8 +26,12 @@ class UserService {
   }
 
   async getAll(): Promise<Array<UserDto>> {
-    const allUsers = await this.userDao.loadAll();
-    return allUsers;
+    try {
+      const allUsers = await this.userDao.loadAll();
+      return allUsers;
+    } catch (e) {
+      throw new Error("Error when fetching data.");
+    }
   }
 
   mapUserToUserDto(user: UserDto) {

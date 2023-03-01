@@ -105,5 +105,19 @@ describe("user service", () => {
       const result = await sut.getAll();
       expect(result).toHaveLength(1);
     });
+
+    test("should throw if dao throws", async () => {
+      userDaoMock.loadAll = jest.fn(() => {
+        throw new Error("Error");
+      });
+
+      try {
+        await sut.getAll();
+        expect(true).toBeFalsy();
+      } catch (e) {
+        console.log(Object.keys(e));
+        expect(e.message).toBe("Error when fetching data.");
+      }
+    });
   });
 });
