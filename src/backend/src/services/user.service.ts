@@ -26,7 +26,8 @@ class UserService {
   }
 
   async getAll(): Promise<Array<UserDto>> {
-    return [];
+    const allUsers = await this.userDao.loadAll();
+    return allUsers;
   }
 
   mapUserToUserDto(user: UserDto) {

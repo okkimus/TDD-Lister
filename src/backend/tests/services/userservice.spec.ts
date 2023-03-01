@@ -86,8 +86,24 @@ describe("user service", () => {
 
     test("should return empty list when there's no users", async () => {
       const result = await sut.getAll();
-
       expect(result).toHaveLength(0);
+    });
+
+    test("should return list with one user when dao return a user", async () => {
+      userDaoMock.loadAll = jest.fn(
+        () =>
+          new Promise<Array<UserDto>>((resolve) => {
+            resolve([
+              {
+                id: "1",
+                username: "Tester",
+                email: "test@example.com",
+              } satisfies UserDto,
+            ]);
+          })
+      );
+      const result = await sut.getAll();
+      expect(result).toHaveLength(1);
     });
   });
 });
