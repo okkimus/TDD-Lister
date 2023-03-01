@@ -25,6 +25,10 @@ class UserService {
     }
   }
 
+  async getAll(): Promise<Array<UserDto>> {
+    return [];
+  }
+
   mapUserToUserDto(user: UserDto) {
     return {
       id: user.id,

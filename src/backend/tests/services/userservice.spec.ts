@@ -6,6 +6,7 @@ import { UserDao } from "../../src/daos/userDao";
 describe("user service", () => {
   let sut: UserService;
   let testUser: UserDto;
+  let testUser2: UserDto;
   let userDaoMock: UserDao;
 
   describe("create", () => {
@@ -74,6 +75,19 @@ describe("user service", () => {
       } catch (e) {
         expect(e.message).toBe("Failed inserting user into db.");
       }
+    });
+  });
+
+  describe("getAll", () => {
+    beforeEach(() => {
+      userDaoMock = new UserDao();
+      sut = new UserService(userDaoMock);
+    });
+
+    test("should return empty list when there's no users", async () => {
+      const result = await sut.getAll();
+
+      expect(result).toHaveLength(0);
     });
   });
 });
