@@ -4,7 +4,7 @@ import { app } from "../../src/server";
 
 const request = supertest(app);
 
-describe("GET /user", () => {
+describe("GET /", () => {
   test("responds with json", async () => {
     const response = await request.get("/");
 
