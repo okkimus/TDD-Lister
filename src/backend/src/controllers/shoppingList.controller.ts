@@ -4,7 +4,7 @@ const controller: Express = express();
 
 controller.get("/", (req: Request, res: Response) => {
   res.set("Content-Type", "application/json");
-  res.send({ hello: "Yeah" });
+  res.send([]);
 });
 
 export { controller };
