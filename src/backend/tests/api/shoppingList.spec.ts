@@ -13,10 +13,10 @@ describe("shopping list controller", () => {
       expect(response.headers["content-type"]).toMatch(/json/);
     });
 
-    test("responds with a array", async () => {
+    test("responds with a array in body's data", async () => {
       const response = await request.get("/");
 
-      expect(response.body).toStrictEqual([]);
+      expect(response.body.data).toStrictEqual([]);
     });
   });
 });
