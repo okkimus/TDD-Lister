@@ -1,11 +1,11 @@
 import express, { Express, Request, Response } from "express";
-import { ShoppingListDao } from "../daos/shoppinListDao";
+import ShoppingListDto from "../domain/dtos/shoppingList.dto";
 import ApiResponse from "../domain/types/apiResponse.type";
 import { TypedRequestBody } from "../domain/types/typedRequestBody.type";
 
-const controller: Express = express();
+const ShoppingListController: Express = express();
 
-controller.get("/", (req: Request, res: Response) => {
+ShoppingListController.get("/", (req: Request, res: Response) => {
   res.set("Content-Type", "application/json");
   const responseBody = {
     data: [],
@@ -14,16 +14,17 @@ controller.get("/", (req: Request, res: Response) => {
   res.send(responseBody);
 });
 
-controller.post(
+ShoppingListController.post(
   "/",
-  (req: TypedRequestBody<ShoppingListDao>, res: Response) => {
-    res.set("Content-Type", "application/json");
+  (req: TypedRequestBody<ShoppingListDto>, res: Response) => {
+    req.body.id = "1";
     const responseBody = {
-      data: [],
+      data: req.body,
       errors: [],
     } satisfies ApiResponse;
+    res.set("Content-Type", "application/json");
     res.send(responseBody);
   }
 );
 
-export { controller };
+export default ShoppingListController;

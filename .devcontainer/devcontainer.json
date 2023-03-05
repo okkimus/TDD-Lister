@@ -12,7 +12,8 @@
 				"streetsidesoftware.code-spell-checker",
 				"eamodio.gitlens",
 				"esbenp.prettier-vscode",
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"humao.rest-client"
 			]
 		}
 	},
