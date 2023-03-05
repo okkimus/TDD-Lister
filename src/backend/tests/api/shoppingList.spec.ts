@@ -5,7 +5,7 @@ import { controller } from "../../src/controllers/shoppingList.controller";
 const request = supertest(controller);
 
 describe("shopping list controller", () => {
-  describe("/", () => {
+  describe("GET /", () => {
     test("responds with json", async () => {
       const response = await request.get("/");
 
@@ -26,6 +26,11 @@ describe("shopping list controller", () => {
 
       expect(response.status).toBe(200);
       expect(response.headers["content-type"]).toMatch(/json/);
+    });
+
+    test("responds with a created shopping list", async () => {
+      const response = await request.post("/").send({});
+      expect(response.body.data).toStrictEqual([]);
     });
   });
 });
