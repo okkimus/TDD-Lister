@@ -1,7 +1,15 @@
+### Accepted
 POST http://localhost:5555/shoppinglist HTTP/1.1
 content-type: application/json
 
-{
-    "name": "Test",
-    "items": []
-}
+{ "name": "Test", "items": [] }
+### Without name
+POST http://localhost:5555/shoppinglist HTTP/1.1
+content-type: application/json
+
+{ "name": "", "items": [] }
+### Without items
+POST http://localhost:5555/shoppinglist HTTP/1.1
+content-type: application/json
+
+{ "name": "Test" }

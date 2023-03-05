@@ -1,6 +1,6 @@
 interface ApiResponse {
   data: any;
-  errors: Array<Error>;
+  errors: Array<string>;
 }
 
 export default ApiResponse;

@@ -23,7 +23,11 @@ describe("shopping list controller", () => {
   });
 
   describe("POST /", () => {
-    const testList = { name: "New list", items: [] } satisfies ShoppingListDto;
+    let testList: ShoppingListDto;
+
+    beforeEach(() => {
+      testList = { name: "New list", items: [] } satisfies ShoppingListDto;
+    });
 
     test("responds with json", async () => {
       const response = await request.post(basePath).send(testList);
@@ -35,10 +39,30 @@ describe("shopping list controller", () => {
     test("responds with a created shopping list", async () => {
       const response = await request.post(basePath).send(testList);
       const data = response.body.data;
-      console.log(response);
       expect(data.name).toBe("New list");
       expect(data.items).toStrictEqual([]);
       expect(data.id).toBeDefined();
+    });
+
+    test("responds with a validation error if list doesn't have name", async () => {
+      testList.name = "";
+      const response = await request.post(basePath).send(testList);
+      const data = response.body.data;
+      const errors = response.body.errors;
+      expect(data).toBe(null);
+      expect(errors).toHaveLength(1);
+      expect(errors[0]).toBe("Name cannot be empty");
+    });
+
+    test("responds with a validation error if list has undefined items", async () => {
+      const response = await request
+        .post(basePath)
+        .send({ name: testList.name });
+      const data = response.body.data;
+      const errors = response.body.errors;
+      expect(data).toBe(null);
+      expect(errors).toHaveLength(1);
+      expect(errors[0]).toBe("Items must be an array");
     });
   });
 });
