@@ -19,4 +19,13 @@ describe("shopping list controller", () => {
       expect(response.body.data).toStrictEqual([]);
     });
   });
+
+  describe("POST /", () => {
+    test("responds with json", async () => {
+      const response = await request.post("/").send({});
+
+      expect(response.status).toBe(200);
+      expect(response.headers["content-type"]).toMatch(/json/);
+    });
+  });
 });

@@ -12,4 +12,13 @@ controller.get("/", (req: Request, res: Response) => {
   res.send(responseBody);
 });
 
+controller.post("/", (req: Request, res: Response) => {
+  res.set("Content-Type", "application/json");
+  const responseBody = {
+    data: [],
+    errors: [],
+  } satisfies ApiResponse;
+  res.send(responseBody);
+});
+
 export { controller };
