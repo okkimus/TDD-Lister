@@ -10,6 +10,6 @@ app.get("/", (req: Request, res: Response) => {
   res.send("API running!");
 });
 
-app.use("/shoppinglist", ShoppingListController);
+app.use("/shoppinglist", new ShoppingListController().controller);
 
 export { app };
