@@ -54,6 +54,17 @@ describe("shopping list controller", () => {
       expect(errors[0]).toBe("Name cannot be empty");
     });
 
+    test("responds with a validation error if name is number", async () => {
+      const response = await request
+        .post(basePath)
+        .send({ name: 123, items: [] });
+      const data = response.body.data;
+      const errors = response.body.errors;
+      expect(data).toBe(null);
+      expect(errors).toHaveLength(1);
+      expect(errors[0]).toBe("Name must be a string");
+    });
+
     test("responds with a validation error if list has undefined items", async () => {
       const response = await request
         .post(basePath)

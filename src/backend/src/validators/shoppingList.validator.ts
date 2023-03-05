@@ -8,7 +8,7 @@ const ShoppingListValidator = {
       errors.push("Name cannot be empty");
     }
     if (typeof list.name !== "string") {
-      errors.push("Name must be string");
+      errors.push("Name must be a string");
     }
     if (
       list.items === undefined ||
