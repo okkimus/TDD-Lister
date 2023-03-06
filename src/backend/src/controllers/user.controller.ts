@@ -1,16 +1,17 @@
-import express, { Request, Response } from "express";
+import express, { Express, Request, Response } from "express";
 import ApiResponse from "../domain/types/apiResponse.type";
 import { TypedRequestBody } from "../domain/types/typedRequestBody.type";
+import UserService from "../services/user.service";
 
 class UserController {
-  controller = express();
+  userService: UserService;
 
-  constructor() {
-    this.addRoutes();
+  constructor(userService: UserService) {
+    this.userService = userService;
   }
 
-  addRoutes() {
-    this.controller.get("/", (req: Request, res: Response) => {
+  addRoutes(app: Express) {
+    app.get("/", (req: Request, res: Response) => {
       res.set("Content-Type", "application/json");
       const responseBody = {
         data: [],
@@ -18,6 +19,8 @@ class UserController {
       } satisfies ApiResponse;
       res.send(responseBody);
     });
+
+    return app;
   }
 }
 

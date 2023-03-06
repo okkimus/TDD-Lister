@@ -3,16 +3,13 @@ import ShoppingListDto from "../domain/dtos/shoppingList.dto";
 import ApiResponse from "../domain/types/apiResponse.type";
 import { TypedRequestBody } from "../domain/types/typedRequestBody.type";
 import ShoppingListValidator from "../validators/shoppingList.validator";
+import { ValidationResult } from "../validators/validator.interface";
 
 class ShoppingListController {
-  controller = express();
+  constructor() {}
 
-  constructor() {
-    this.addRoutes();
-  }
-
-  addRoutes() {
-    this.controller.get("/", (req: Request, res: Response) => {
+  addRoutes(app: Express) {
+    app.get("/", (req: Request, res: Response) => {
       res.set("Content-Type", "application/json");
       const responseBody = {
         data: [],
@@ -21,27 +18,27 @@ class ShoppingListController {
       res.send(responseBody);
     });
 
-    this.controller.post(
-      "/",
-      (req: TypedRequestBody<ShoppingListDto>, res: Response) => {
-        const validationResult = ShoppingListValidator.validate(req.body);
-        res.set("Content-Type", "application/json");
+    app.post("/", (req: TypedRequestBody<ShoppingListDto>, res: Response) => {
+      let validationResult: ValidationResult;
+      validationResult = ShoppingListValidator.validate(req.body);
 
-        if (!validationResult.isValid) {
-          return res.status(400).json({
-            data: null,
-            errors: validationResult.errors,
-          } satisfies ApiResponse);
-        }
-
-        req.body.id = "1";
-        const responseBody = {
-          data: req.body,
-          errors: [],
-        } satisfies ApiResponse;
-        res.send(responseBody);
+      res.set("Content-Type", "application/json");
+      if (!validationResult!.isValid) {
+        return res.status(400).json({
+          data: null,
+          errors: validationResult!.errors,
+        } satisfies ApiResponse);
       }
-    );
+
+      req.body.id = "1";
+      const responseBody = {
+        data: req.body,
+        errors: [],
+      } satisfies ApiResponse;
+      res.send(responseBody);
+    });
+
+    return app;
   }
 }
 
