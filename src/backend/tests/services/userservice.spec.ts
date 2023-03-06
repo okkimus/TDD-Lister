@@ -115,7 +115,6 @@ describe("user service", () => {
         await sut.getAll();
         expect(true).toBeFalsy();
       } catch (e) {
-        console.log(Object.keys(e));
         expect(e.message).toBe("Error when fetching data.");
       }
     });

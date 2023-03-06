@@ -10,18 +10,14 @@ class UserController {
     this.userService = userService;
   }
 
-  addRoutes(app: Express) {
-    app.get("/", (req: Request, res: Response) => {
-      res.set("Content-Type", "application/json");
-      const responseBody = {
-        data: [],
-        errors: [],
-      } satisfies ApiResponse;
-      res.send(responseBody);
-    });
-
-    return app;
-  }
+  getUsers = (req: Request, res: Response) => {
+    res.set("Content-Type", "application/json");
+    const responseBody = {
+      data: [],
+      errors: [],
+    } satisfies ApiResponse;
+    res.send(responseBody);
+  };
 }
 
 export default UserController;
