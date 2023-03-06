@@ -11,6 +11,7 @@ const shoppingListController = new ShoppingListController();
 
 // User
 router.get("/users", userController.getUsers);
+router.post("/users", userController.addUser);
 
 // ShoppingList
 router.get("/shoppinglist", shoppingListController.getShoppingLists);

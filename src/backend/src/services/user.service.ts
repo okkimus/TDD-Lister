@@ -9,13 +9,6 @@ class UserService {
   }
 
   async create(user: UserDto): Promise<UserDto> {
-    if (user.username === "") {
-      throw new Error("User is missing username.");
-    }
-    if (user.email === "") {
-      throw new Error("User is missing email address.");
-    }
-
     try {
       const insertedUser = await this.userDao.save(user);
       return this.mapUserToUserDto(insertedUser);

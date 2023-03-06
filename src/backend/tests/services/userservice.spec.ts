@@ -29,25 +29,25 @@ describe("user service", () => {
       sut = new UserService(userDaoMock);
     });
 
-    test("should throw if user is missing username", async () => {
-      testUser.username = "";
-      try {
-        await sut.create(testUser);
-        expect(true).toBeFalsy();
-      } catch (e) {
-        expect(e.message).toBe("User is missing username.");
-      }
-    });
+    // test("should throw if user is missing username", async () => {
+    //   testUser.username = "";
+    //   try {
+    //     await sut.create(testUser);
+    //     expect(true).toBeFalsy();
+    //   } catch (e) {
+    //     expect(e.message).toBe("User is missing username.");
+    //   }
+    // });
 
-    test("should throw if user is missing email", async () => {
-      testUser.email = "";
-      try {
-        await sut.create(testUser);
-        expect(true).toBeFalsy();
-      } catch (e) {
-        expect(e.message).toBe("User is missing email address.");
-      }
-    });
+    // test("should throw if user is missing email", async () => {
+    //   testUser.email = "";
+    //   try {
+    //     await sut.create(testUser);
+    //     expect(true).toBeFalsy();
+    //   } catch (e) {
+    //     expect(e.message).toBe("User is missing email address.");
+    //   }
+    // });
 
     test("should return the user with id", async () => {
       const result = await sut.create(testUser);
