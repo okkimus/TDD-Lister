@@ -5,10 +5,10 @@ const UserValidator = {
   validate: (user) => {
     const errors: Array<string> = [];
     if (!user.username) {
-      errors.push("Name cannot be empty");
+      errors.push("Username cannot be empty");
     }
     if (typeof user.username !== "string") {
-      errors.push("Name must be a string");
+      errors.push("Username must be a string");
     }
     if (!user.email) {
       errors.push("Email cannot be empty");

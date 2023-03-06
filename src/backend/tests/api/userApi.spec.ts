@@ -44,5 +44,16 @@ describe("user controller", () => {
       expect(data.username).toEqual(testUser.username);
       expect(data.id).toBeDefined();
     });
+
+    test("responds with errors if username is missing", async () => {
+      const response = await controller
+        .post("/users")
+        .send({ email: "test@example.com" });
+
+      expect(response.status).toBe(400);
+      expect(response.body.errors).toHaveLength(2);
+      expect(response.body.errors[0]).toBe("Username cannot be empty");
+      expect(response.body.errors[1]).toBe("Username must be a string");
+    });
   });
 });
