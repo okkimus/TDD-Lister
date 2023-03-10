@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, NextFunction, Request, Response } from "express";
 import UserDto from "../domain/dtos/user.dto";
 import ApiResponse from "../domain/types/apiResponse.type";
 import { TypedRequestBody } from "../domain/types/typedRequestBody.type";
@@ -12,8 +12,7 @@ class UserController {
     this.userService = userService;
   }
 
-  getUsers = async (req: Request, res: Response) => {
-    res.set("Content-Type", "application/json");
+  getUsers = async (req: Request, res: Response, next: NextFunction) => {
     const responseBody: ApiResponse<UserDto[]> = {
       data: null,
       errors: [],
@@ -23,10 +22,10 @@ class UserController {
       const users = await this.userService.getAll();
       responseBody.data = users;
     } catch (e) {
-      if (e instanceof Error) responseBody.errors.push(e.message);
-      else if (typeof e === "string") responseBody.errors.push(e);
+      return next(e);
     }
 
+    res.set("Content-Type", "application/json");
     res.send(responseBody);
   };
 

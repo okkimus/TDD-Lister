@@ -43,7 +43,7 @@ describe("user controller", () => {
     test("responds with error if error is thrown by user service", async () => {
       userServiceMock.getAll = jest.fn(
         () =>
-          new Promise<Array<UserDto>>((resolve) => {
+          new Promise<Array<UserDto>>((resolve, reject) => {
             throw Error("Error");
           })
       );
@@ -51,6 +51,7 @@ describe("user controller", () => {
       const response = await controller.get("/users");
       expect(response.body.data).toStrictEqual(null);
       expect(response.body.errors).toHaveLength(1);
+      expect(response.body.errors[0]).toBe("Error");
     });
   });
 

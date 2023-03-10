@@ -3,9 +3,11 @@ import bodyParser from "body-parser";
 import addRoutes, { RouteServices } from "./routes";
 import { UserDao } from "./daos/userDao";
 import UserService from "./services/user.service";
+import handleError from "./helpers/errorMiddleware";
 
 const createServer = (usedServices: RouteServices) => {
   const app: Express = express();
+
   app.use(bodyParser.json());
 
   app.get("/", (req: Request, res: Response) => {
@@ -14,6 +16,7 @@ const createServer = (usedServices: RouteServices) => {
   });
 
   app.use("/", addRoutes(usedServices));
+  app.use(handleError);
 
   return app;
 };
