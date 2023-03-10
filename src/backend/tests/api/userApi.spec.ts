@@ -39,6 +39,19 @@ describe("user controller", () => {
         email: "test@example.com",
       });
     });
+
+    test("responds with error if error is thrown by user service", async () => {
+      userServiceMock.getAll = jest.fn(
+        () =>
+          new Promise<Array<UserDto>>((resolve) => {
+            throw Error("Error");
+          })
+      );
+
+      const response = await controller.get("/users");
+      expect(response.body.data).toStrictEqual(null);
+      expect(response.body.errors).toHaveLength(1);
+    });
   });
 
   describe("POST /users", () => {
