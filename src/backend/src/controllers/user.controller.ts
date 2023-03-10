@@ -12,12 +12,21 @@ class UserController {
     this.userService = userService;
   }
 
-  getUsers = (req: Request, res: Response) => {
+  getUsers = async (req: Request, res: Response) => {
     res.set("Content-Type", "application/json");
-    const responseBody = {
-      data: [],
+    const responseBody: ApiResponse<UserDto[]> = {
+      data: null,
       errors: [],
-    } satisfies ApiResponse;
+    };
+
+    try {
+      const users = await this.userService.getAll();
+      responseBody.data = users;
+    } catch (e) {
+      if (e instanceof Error) responseBody.errors.push(e.message);
+      else if (typeof e === "string") responseBody.errors.push(e);
+    }
+
     res.send(responseBody);
   };
 
@@ -28,7 +37,7 @@ class UserController {
       return res.send({
         data: null,
         errors: validationResult.errors,
-      } satisfies ApiResponse);
+      } satisfies ApiResponse<UserDto>);
     }
 
     res.set("Content-Type", "application/json");
@@ -37,7 +46,7 @@ class UserController {
     const responseBody = {
       data: createdUser,
       errors: [],
-    } satisfies ApiResponse;
+    } satisfies ApiResponse<UserDto>;
 
     res.send(responseBody);
   };

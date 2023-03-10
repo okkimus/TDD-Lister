@@ -13,7 +13,7 @@ class ShoppingListController {
     const responseBody = {
       data: [],
       errors: [],
-    } satisfies ApiResponse;
+    } satisfies ApiResponse<Array<ShoppingListDto>>;
     res.send(responseBody);
   };
 
@@ -26,14 +26,14 @@ class ShoppingListController {
       return res.status(400).json({
         data: null,
         errors: validationResult!.errors,
-      } satisfies ApiResponse);
+      } satisfies ApiResponse<ShoppingListDto>);
     }
 
     req.body.id = "1";
     const responseBody = {
       data: req.body,
       errors: [],
-    } satisfies ApiResponse;
+    } satisfies ApiResponse<ShoppingListDto>;
     res.send(responseBody);
   };
 }
