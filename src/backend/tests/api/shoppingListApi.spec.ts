@@ -1,9 +1,11 @@
 import supertest from "supertest";
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
 import ShoppingListDto from "../../src/domain/dtos/shoppingList.dto";
-import { app } from "../../src/server";
+import { createServer } from "../../src/server";
+import UserService from "../../src/services/user.service";
+import { UserDao } from "../../src/daos/userDao";
 
-const sut = app;
+const sut = createServer({ userService: new UserService(new UserDao()) });
 const controller = supertest(sut);
 
 describe("shopping list controller", () => {

@@ -1,15 +1,21 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
-import routes from "./routes";
+import addRoutes, { RouteServices } from "./routes";
+import { UserDao } from "./daos/userDao";
+import UserService from "./services/user.service";
 
-const app: Express = express();
-app.use(bodyParser.json());
+const createServer = (usedServices: RouteServices) => {
+  const app: Express = express();
+  app.use(bodyParser.json());
 
-app.get("/", (req: Request, res: Response) => {
-  res.set("Content-Type", "text/plain");
-  res.send("API running!");
-});
+  app.get("/", (req: Request, res: Response) => {
+    res.set("Content-Type", "text/plain");
+    res.send("API running!");
+  });
 
-app.use("/", routes);
+  app.use("/", addRoutes(usedServices));
 
-export { app };
+  return app;
+};
+
+export { createServer };

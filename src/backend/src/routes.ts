@@ -6,15 +6,24 @@ import UserService from "./services/user.service";
 const express = require("express");
 const router = express.Router();
 
-const userController = new UserController(new UserService(new UserDao()));
-const shoppingListController = new ShoppingListController();
+const addRoutes = (services: RouteServices) => {
+  const userController = new UserController(services.userService);
+  const shoppingListController = new ShoppingListController();
 
-// User
-router.get("/users", userController.getUsers);
-router.post("/users", userController.addUser);
+  // User
+  router.get("/users", userController.getUsers);
+  router.post("/users", userController.addUser);
 
-// ShoppingList
-router.get("/shoppinglist", shoppingListController.getShoppingLists);
-router.post("/shoppinglist", shoppingListController.addShoppingList);
+  // ShoppingList
+  router.get("/shoppinglist", shoppingListController.getShoppingLists);
+  router.post("/shoppinglist", shoppingListController.addShoppingList);
 
-export default router;
+  return router;
+};
+
+type RouteServices = {
+  userService: UserService;
+};
+
+export default addRoutes;
+export { addRoutes, RouteServices };

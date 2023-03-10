@@ -1,8 +1,12 @@
 import supertest from "supertest";
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-import { app } from "../../src/server";
+import { createServer } from "../../src/server";
+import UserService from "../../src/services/user.service";
+import { UserDao } from "../../src/daos/userDao";
 
-const request = supertest(app);
+const request = supertest(
+  createServer({ userService: new UserService(new UserDao()) })
+);
 
 describe("GET /", () => {
   test("responds with json", async () => {

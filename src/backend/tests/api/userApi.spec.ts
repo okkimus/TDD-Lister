@@ -1,9 +1,14 @@
 import supertest from "supertest";
 import { describe, test, expect, beforeEach, jest } from "@jest/globals";
-import { app } from "../../src/server";
+import { createServer } from "../../src/server";
 import UserDto from "../../src/domain/dtos/user.dto";
+import UserService from "../../src/services/user.service";
+import { UserDao } from "../../src/daos/userDao";
 
-const sut = app;
+jest.mock("../../src/daos/userDao");
+const userServiceMock = new UserService(new UserDao());
+
+const sut = createServer({ userService: userServiceMock });
 
 const controller = supertest(sut);
 
@@ -20,7 +25,7 @@ describe("user controller", () => {
       expect(response.body.data).toStrictEqual([]);
     });
 
-    // test("responds with array with users returned by user service", async () => {});
+    test("responds with array with users returned by user service", async () => {});
   });
 
   describe("POST /users", () => {
