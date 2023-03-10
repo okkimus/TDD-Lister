@@ -7,9 +7,7 @@ import { UserDao } from "../../src/daos/userDao";
 
 jest.mock("../../src/daos/userDao");
 const userServiceMock = new UserService(new UserDao());
-
 const sut = createServer({ userService: userServiceMock });
-
 const controller = supertest(sut);
 
 describe("user controller", () => {
@@ -25,7 +23,22 @@ describe("user controller", () => {
       expect(response.body.data).toStrictEqual([]);
     });
 
-    test("responds with array with users returned by user service", async () => {});
+    test("responds with array with users returned by user service", async () => {
+      userServiceMock.getAll = jest.fn(
+        () =>
+          new Promise<Array<UserDto>>((resolve) => {
+            resolve([{ id: "1", username: "Test", email: "test@example.com" }]);
+          })
+      );
+
+      const response = await controller.get("/users");
+      expect(response.body.data).toHaveLength(1);
+      expect(response.body.data[0]).toStrictEqual({
+        id: "1",
+        username: "Test",
+        email: "test@example.com",
+      });
+    });
   });
 
   describe("POST /users", () => {
