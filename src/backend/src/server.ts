@@ -1,6 +1,6 @@
 import express, { Express, Request, Response } from "express";
 import bodyParser from "body-parser";
-import addRoutes, { RouteServices } from "./routes";
+import { addRoutes, RouteServices } from "./routes";
 import { UserDao } from "./daos/userDao";
 import UserService from "./services/user.service";
 import handleError from "./helpers/errorMiddleware";

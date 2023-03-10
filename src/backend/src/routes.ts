@@ -25,5 +25,4 @@ type RouteServices = {
   userService: UserService;
 };
 
-export default addRoutes;
 export { addRoutes, RouteServices };

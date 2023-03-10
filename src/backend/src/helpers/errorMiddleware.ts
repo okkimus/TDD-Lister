@@ -7,17 +7,25 @@ const handleError: ErrorRequestHandler = (
   res: Response,
   next: NextFunction
 ) => {
+  const resBody = mapErrorToResponse(err);
+  res.status(500).json(resBody);
+};
+
+const mapErrorToResponse = (err: unknown): ApiResponse<null> => {
+  const response: ApiResponse<null> = {
+    data: null,
+    errors: [],
+  };
+
   if (err instanceof Error) {
-    res.status(500).json({
-      data: null,
-      errors: [err.message],
-    });
+    response.errors.push(err.message);
   } else if (typeof err === "string") {
-    res.status(500).json({
-      data: null,
-      errors: [err],
-    });
+    response.errors.push(err);
   }
+  console.log(response);
+
+  return response;
 };
 
 export default handleError;
+export { handleError, mapErrorToResponse };
