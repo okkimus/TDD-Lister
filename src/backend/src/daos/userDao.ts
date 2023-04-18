@@ -1,5 +1,6 @@
 import User from "../domain/types/user.type";
 import BaseDao from "./base.dao";
+import db from "../../models/index";
 
 class UserDao implements BaseDao<User, string> {
   users: Array<User>;
@@ -11,7 +12,7 @@ class UserDao implements BaseDao<User, string> {
   }
 
   async loadAll() {
-    return await this.users;
+    return await db.user.findAll();
   }
 
   async get(id: string) {
